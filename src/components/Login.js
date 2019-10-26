@@ -1,68 +1,71 @@
 import React, { Component } from "react";
-import fire from "../config/Fire";
+// import fire from "../config/Fire";
 import "../App.css";
+import GoogleLogin from "react-google-login";
+import Dashboard from "./Dashboard";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {}
+      user: {},
+      profileObj: {}
     };
   }
 
-  SignIn = () => {
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
+  onSignIn(googleUser) {
+    const profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId());
+    console.log("Name: " + profile.getName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail());
+  }
 
-    fire
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(u => {
-        alert("Sign In successful");
-        console.log("Sign In Successful!");
-      })
-      .catch(err => {
-        console.log(err.toString());
-      });
+  responseGoogle = response => {
+    const { profileObj } = response;
+
+    if (this.state.user !== {}) {
+      alert("Sign In Successfull!");
+      this.setState(
+        { profileObj: profileObj, user: profileObj.givenName },
+        this.showDashboard
+      );
+    }
+    console.log(response);
+    console.log(this.state.user);
   };
-  SignUp = () => {
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
 
-    fire
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(u => {
-        console.log("Sign Up Successfull!");
-        alert("SignUp successful.");
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  showDashboard = user => {
+    return <Dashboard user={this.state.profileObj} />;
   };
 
   render() {
     return (
       <div className="App">
-        <div className="login-form">
-          <h1>Login</h1>
-          <div>
-            <input id="email" type="email" placeholder="Email" />
-          </div>
-          <div>
-            <input
-              id="password"
-              type="password"
-              placeholder="Password"
-              onChange={this.onPasswordChange}
+        <div
+          className="container"
+          style={{
+            width: "400px",
+            height: "500px",
+            textAlign: "center",
+            margin: "0 auto",
+            border: "2px solid #dadada",
+            borderRadius: "5px",
+            padding: "40px",
+            backgroundColor: "white"
+          }}
+        >
+          <form className="form-group">
+            <h1 className="heading">Meme Forum</h1>
+            <h6 className="heading-sub">Home of the funniest Memes.</h6>
+            <GoogleLogin
+              clientId="657761939316-s66i73eqlof9h55avootuhato0tkdfg0.apps.googleusercontent.com"
+              clientSecret="2mBb5QptZIu9ZwsdOnhyITGh"
+              buttonText="Sign In With Google."
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
             />
-          </div>
-          <div className="sign-in" onClick={this.SignIn}>
-            Sign In
-          </div>
-          <div className="sign-up" onClick={this.SignUp}>
-            Sign Up
-          </div>
+          </form>
         </div>
       </div>
     );
