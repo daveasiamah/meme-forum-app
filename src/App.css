@@ -1,9 +1,7 @@
-.main-page {
+.App {
     background-color: #F6D114;
-    padding-top: 10%;
-    margin: auto;
-    /* width: 900px; */
     height: 100vh;
+    width: 100vw;
 }
 
 .heading {
@@ -12,5 +10,14 @@
 
 .heading-sub {
     padding-bottom: 25px;
+    color: rgb(224, 189, 12);
+}
+
+.vote {
+    font-size: 25px;
+}
+
+.vote:hover {
+    cursor: pointer;
     color: yellow;
 }

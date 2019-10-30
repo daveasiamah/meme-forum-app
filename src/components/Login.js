@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-// import fire from "../config/Fire";
 import "../App.css";
 import GoogleLogin from "react-google-login";
-import Dashboard from "./Dashboard";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
-      profileObj: {}
+      user: {}
     };
   }
 
@@ -25,33 +22,32 @@ class Login extends Component {
     const { profileObj } = response;
 
     if (this.state.user !== {}) {
-      alert("Sign In Successfull!");
-      this.setState(
-        { profileObj: profileObj, user: profileObj.givenName },
-        this.showDashboard
-      );
+      // alert("Sign In Successfull!");
+      this.setState({ user: profileObj });
+      this.props.history.push("/home");
     }
     console.log(response);
     console.log(this.state.user);
   };
 
-  showDashboard = user => {
-    return <Dashboard user={this.state.profileObj} />;
-  };
-
   render() {
     return (
-      <div className="App">
+      <div
+        style={{
+          backgroundColor: "#f6d114",
+          height: "100vh",
+          margin: "0 auto",
+          textAlign: "center",
+          paddingTop: "100px"
+        }}
+      >
         <div
-          className="container"
+          className="card"
           style={{
             width: "400px",
-            height: "500px",
+            height: "400px",
             textAlign: "center",
             margin: "0 auto",
-            border: "2px solid #dadada",
-            borderRadius: "5px",
-            padding: "40px",
             backgroundColor: "white"
           }}
         >
@@ -61,9 +57,10 @@ class Login extends Component {
             <GoogleLogin
               clientId="657761939316-s66i73eqlof9h55avootuhato0tkdfg0.apps.googleusercontent.com"
               clientSecret="2mBb5QptZIu9ZwsdOnhyITGh"
-              buttonText="Sign In With Google."
+              buttonText="Sign in with Google."
               onSuccess={this.responseGoogle}
               onFailure={this.responseGoogle}
+              fetchBasicProfile
             />
           </form>
         </div>

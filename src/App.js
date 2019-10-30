@@ -1,27 +1,31 @@
 import React, { Component } from "react";
-// import { Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Login from "../src/components/Login";
-import Dashboard from "./components/Dashboard";
+import Home from "./views/Home";
 
+import config from "./config/Fire";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      user: null
+      user: {}
     };
   }
 
   componentDidMount() {
-    console.log(this.state);
+    console.log(config);
   }
 
   render() {
     return (
-      <div className="main-page">
-        {this.state.user !== null ? <Dashboard /> : <Login />}
+      <div>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route exact path="/home" component={Home} />
+        </Switch>
       </div>
     );
   }
