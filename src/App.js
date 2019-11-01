@@ -17,6 +17,7 @@ class App extends Component {
 
   componentDidMount() {
     console.log(config);
+    console.log(process.env.REACT_APP_DATABASE_URL);
   }
 
   render() {

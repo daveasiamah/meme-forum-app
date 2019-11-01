@@ -23,18 +23,40 @@ class Home extends Component {
     console.log("file uploaded...");
   };
 
+  handleLogOut = () => {
+    localStorage.removeItem("isLoggedIn");
+    this.props.history.push("/");
+    console.log(localStorage.getItem("isLoggedIn"));
+  };
+
   loggedInUser = JSON.parse(localStorage.getItem("isLoggedIn"));
 
   componentDidMount() {
-    if (localStorage.getItem("isLoggedIn") !== null) {
-      console.log("User is Logged in.");
+    const { history } = this.props;
+    if (
+      (window.location.pathname = "/home") &&
+      localStorage.getItem("isLoggedIn") !== null
+    ) {
+      history.push("/");
     }
-    // console.log(
-    //   "Logged in as :",
-    //   JSON.parse(localStorage.getItem("isLoggedIn"))
-    // );
+    // if (localStorage.getItem("isLoggedIn") !== null) {
+    //   this.props.history.pathname = "/home";
+    //   console.log("User is Logged in.");
+    //   console.log(
+    //     "Logged in as :",
+    //     JSON.parse(localStorage.getItem("isLoggedIn"))
+    //   );
+    // } else {
+    //   this.props.history.push("/");
+    // }
 
     console.log(this.props);
+  }
+
+  componentWillUnmount() {
+    window.close(localStorage.removeItem("isLoggedIn"));
+    console.log("loggedOut");
+    // localStorage.removeItem("isLoggedIn");
   }
 
   render() {
@@ -133,7 +155,6 @@ class Home extends Component {
               >
                 New Meme
               </h5>
-
               <div
                 className="modal-body"
                 style={{
@@ -142,7 +163,7 @@ class Home extends Component {
                   justifyContent: "space-evenly"
                 }}
               >
-                <div className="container">
+                <div className="container" style={{ display: "flex" }}>
                   <div className="row">
                     <div className="col-md-6 card">
                       <img
@@ -154,7 +175,7 @@ class Home extends Component {
                         }}
                       />
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-6" style={{ textAlign: "center" }}>
                       <label for="fileUpload">
                         <span style={{ color: "#f6d114", fontSize: "1.2rem" }}>
                           New Image
@@ -163,6 +184,9 @@ class Home extends Component {
                       <input
                         id="fileUpload"
                         type="file"
+                        onClick={() => {
+                          console.log("clicked upload");
+                        }}
                         onChange={this.fileSelectedHandler}
                       />
                       <button onClick={this.fileUploadHandler}>Upload</button>
@@ -205,57 +229,7 @@ class Home extends Component {
             </div>
           </div>
         </div>
-        {/* <!-- Button trigger modal --> */}
-        <button
-          type="button"
-          className="btn btn-primary"
-          data-toggle="modal"
-          data-target="#exampleModal"
-        >
-          Launch demo modal
-        </button>
 
-        {/* <!-- Modal --> */}
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Modal title
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">...</div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" className="btn btn-primary">
-                  Save changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="container">New Modal should go here</div>
         {/* Main page */}
         <div className="container">
           <Meme />

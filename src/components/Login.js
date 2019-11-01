@@ -8,6 +8,9 @@ class Login extends Component {
     this.state = {
       user: {}
     };
+    // app.initializeApp(config);
+    // this.auth = app.auth();
+    // this.db = app.database();
   }
 
   onSignIn(googleUser) {
@@ -22,8 +25,8 @@ class Login extends Component {
     const { profileObj } = response;
 
     if (this.state.user !== {}) {
-      // alert("Sign In Successfull!");
       this.setState({ user: profileObj });
+      localStorage.setItem("isLoggedIn", JSON.stringify(this.state.user));
       this.props.history.push("/home");
     }
     console.log(response);
