@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import "../App.css";
 import GoogleLogin from "react-google-login";
+import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -8,30 +8,23 @@ class Login extends Component {
     this.state = {
       user: {}
     };
-    // app.initializeApp(config);
-    // this.auth = app.auth();
-    // this.db = app.database();
-  }
-
-  onSignIn(googleUser) {
-    const profile = googleUser.getBasicProfile();
-    console.log("ID: " + profile.getId());
-    console.log("Name: " + profile.getName());
-    console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail());
   }
 
   responseGoogle = response => {
     const { profileObj } = response;
+    this.setState({ user: profileObj });
 
     if (this.state.user !== {}) {
-      this.setState({ user: profileObj });
       localStorage.setItem("isLoggedIn", JSON.stringify(this.state.user));
       this.props.history.push("/home");
     }
     console.log(response);
     console.log(this.state.user);
   };
+
+  componentDidMount() {
+    console.log(this.props);
+  }
 
   render() {
     return (
@@ -62,7 +55,7 @@ class Login extends Component {
               clientSecret="2mBb5QptZIu9ZwsdOnhyITGh"
               buttonText="Sign in with Google."
               onSuccess={this.responseGoogle}
-              onFailure={this.responseGoogle}
+              onFailure={() => <Redirect to={"/"} />}
               fetchBasicProfile
             />
           </form>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+
 import Meme from "../components/Meme";
 import "../App.css";
 import logoImg from "../logo.svg";
@@ -31,35 +32,15 @@ class Home extends Component {
 
   loggedInUser = JSON.parse(localStorage.getItem("isLoggedIn"));
 
-  componentDidMount() {
-    const { history } = this.props;
-    if (
-      (window.location.pathname = "/home") &&
-      localStorage.getItem("isLoggedIn") !== null
-    ) {
-      history.push("/");
-    }
-    // if (localStorage.getItem("isLoggedIn") !== null) {
-    //   this.props.history.pathname = "/home";
-    //   console.log("User is Logged in.");
-    //   console.log(
-    //     "Logged in as :",
-    //     JSON.parse(localStorage.getItem("isLoggedIn"))
-    //   );
-    // } else {
-    //   this.props.history.push("/");
-    // }
-
-    console.log(this.props);
-  }
-
   componentWillUnmount() {
-    window.close(localStorage.removeItem("isLoggedIn"));
-    console.log("loggedOut");
-    // localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("isLoggedIn");
   }
 
   render() {
+    if (!this.loggedInUser) {
+      return <Redirect to={"/"} />;
+    }
+
     return (
       <div>
         <nav
