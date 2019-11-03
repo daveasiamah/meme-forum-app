@@ -3,7 +3,6 @@ import { Link, Redirect } from "react-router-dom";
 
 import Meme from "../components/Meme";
 import "../App.css";
-import logoImg from "../logo.svg";
 
 class Home extends Component {
   constructor(props) {
@@ -15,8 +14,15 @@ class Home extends Component {
   }
 
   fileSelectedHandler = event => {
-    console.log(event.target.files[0]);
-    this.setState({ fileSelected: event.target.files[0] });
+    this.setState(
+      { fileSelected: URL.createObjectURL(event.target.files[0]) },
+      console.log(event.target.files[0])
+    );
+  };
+
+  resetFile = event => {
+    event.preventDefault();
+    this.setState({ fileSelected: null });
   };
 
   fileUploadHandler = () => {
@@ -28,6 +34,7 @@ class Home extends Component {
     localStorage.removeItem("isLoggedIn");
     this.props.history.push("/");
     console.log(localStorage.getItem("isLoggedIn"));
+    console.log("Logged Out");
   };
 
   loggedInUser = JSON.parse(localStorage.getItem("isLoggedIn"));
@@ -144,33 +151,53 @@ class Home extends Component {
                   justifyContent: "space-evenly"
                 }}
               >
-                <div className="container" style={{ display: "flex" }}>
-                  <div className="row">
-                    <div className="col-md-6 card">
-                      <img
-                        src={logoImg}
-                        alt="preview"
-                        style={{
-                          width: "100%",
-                          height: "100%"
-                        }}
-                      />
-                    </div>
-                    <div className="col-md-6" style={{ textAlign: "center" }}>
-                      <label for="fileUpload">
-                        <span style={{ color: "#f6d114", fontSize: "1.2rem" }}>
-                          New Image
-                        </span>
-                      </label>
+                <div className="row container-fluid">
+                  <div
+                    className="col-md-6"
+                    style={{
+                      width: "150px",
+                      height: "170px"
+                    }}
+                  >
+                    <img
+                      className="card"
+                      src={this.state.fileSelected}
+                      // width="120px"
+                      // height="120px"
+                      alt=""
+                      onError="this.onerror=null;this.src='../images/baby-meme1.jpg';"
+                      style={{
+                        width: "100%",
+                        height: "100%"
+                      }}
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        paddingTop: "45px"
+                      }}
+                    >
                       <input
-                        id="fileUpload"
                         type="file"
-                        onClick={() => {
-                          console.log("clicked upload");
-                        }}
+                        id="file"
+                        className="inputfile"
                         onChange={this.fileSelectedHandler}
+                        hidden
                       />
-                      <button onClick={this.fileUploadHandler}>Upload</button>
+                      <label
+                        for="file"
+                        className="btn btn-block"
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: "#F6D114",
+                          color: "white"
+                        }}
+                      >
+                        New Image
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -189,18 +216,19 @@ class Home extends Component {
                       style={{ border: "1px solid #f6d114" }}
                     />
                   </div>
-                </div>{" "}
+                </div>
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "center",
-                    padding: "20px"
+                    padding: "10px"
                   }}
                 >
                   <button
                     type="button"
                     className="btn btn-light"
                     data-dismiss="modal"
+                    onClick={this.resetFile}
                     style={{ backgroundColor: "#F6D114", color: "white" }}
                   >
                     Upload Meme

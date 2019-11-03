@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import Login from "../src/components/Login";
 import Home from "./views/Home";
+import { base } from "./base";
 
-import config from "./config/Fire";
+// import config from "./config/Fire";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
@@ -15,9 +16,19 @@ class App extends Component {
     };
   }
 
+  componentWillMount() {
+    this.userRef = base.syncState("user", {
+      context: this,
+      state: "user"
+    });
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.userRef);
+  }
+
   componentDidMount() {
-    console.log(config);
-    console.log(process.env.REACT_APP_API_KEY);
+    console.log(base);
   }
 
   render() {
