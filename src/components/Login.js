@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin from "react-google-login";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -22,11 +22,8 @@ class Login extends Component {
     console.log(this.state.user);
   };
 
-  componentDidMount() {
-    console.log(this.props);
-  }
-
   render() {
+    console.log(this.props);
     return (
       <div
         style={{
@@ -51,11 +48,15 @@ class Login extends Component {
             <h1 className="heading">Meme Forum</h1>
             <h6 className="heading-sub">Home of the funniest Memes.</h6>
             <GoogleLogin
-              clientId="657761939316-s66i73eqlof9h55avootuhato0tkdfg0.apps.googleusercontent.com"
-              clientSecret="2mBb5QptZIu9ZwsdOnhyITGh"
+              clientId="939891137350-ob4o528lkk2ulhtbraik67gk3b54qefo.apps.googleusercontent.com"
+              clientSecret="qJn1kKnCk22F6_zaET_LTTQN"
+              cookiePolicy={"single_host_origin"}
               buttonText="Sign in with Google."
               onSuccess={this.responseGoogle}
-              onFailure={() => <Redirect to={"/"} />}
+              // onFailure={() => <Redirect to={"/"} />}
+              onFailure={() => {
+                console.log("There was an error");
+              }}
               fetchBasicProfile
             />
           </form>

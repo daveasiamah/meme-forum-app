@@ -165,7 +165,9 @@ class Home extends Component {
                       // width="120px"
                       // height="120px"
                       alt=""
-                      onError="this.onerror=null;this.src='../images/baby-meme1.jpg';"
+                      onError={() =>
+                        "this.onerror=null;this.src='../images/baby-meme1.jpg';"
+                      }
                       style={{
                         width: "100%",
                         height: "100%"
@@ -188,7 +190,7 @@ class Home extends Component {
                         hidden
                       />
                       <label
-                        for="file"
+                        htmlFor="file"
                         className="btn btn-block"
                         style={{
                           cursor: "pointer",
@@ -206,7 +208,7 @@ class Home extends Component {
                     className="col-md-12"
                     style={{ textAlign: "center", padding: "20px" }}
                   >
-                    <label for="memeCaption">
+                    <label htmlFor="memeCaption">
                       <strong>Meme Caption</strong>
                     </label>
                     <input

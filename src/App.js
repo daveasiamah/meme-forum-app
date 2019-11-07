@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import Login from "../src/components/Login";
 import Home from "./views/Home";
-import { base } from "./base";
+// import Fire from "./config/Fire";
 
-// import config from "./config/Fire";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
@@ -14,21 +13,6 @@ class App extends Component {
     this.state = {
       user: {}
     };
-  }
-
-  componentWillMount() {
-    this.userRef = base.syncState("user", {
-      context: this,
-      state: "user"
-    });
-  }
-
-  componentWillUnmount() {
-    base.removeBinding(this.userRef);
-  }
-
-  componentDidMount() {
-    console.log(base);
   }
 
   render() {
@@ -41,7 +25,11 @@ class App extends Component {
             path="/"
             render={props => <Login {...props} user={user} />}
           />
-          <Route exact path="/home" component={Home} />
+          <Route
+            exact
+            path="/home"
+            render={props => <Home {...props} user={user} />}
+          />
           <Route
             path=""
             render={() => (
@@ -52,11 +40,12 @@ class App extends Component {
                   page.
                 </div>
                 <div className="secondary heading3">
-                  You can also click this link to the main page.
+                  You can also click this
+                  <Link to="/">
+                    <strong>Meme Forum</strong>
+                  </Link>
+                  link to the main page.
                 </div>
-                <Link to="/">
-                  <strong>Meme Forum</strong>
-                </Link>
               </div>
             )}
           />
